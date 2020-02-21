@@ -399,3 +399,22 @@ Section Examples.
 End Examples.
 
 
+From Coq Require Import Relations.
+Import Instances.Relations.
+
+Instance acc_union_Proper T : Proper (same_relation T ==> same_relation T ==> same_relation T) (union T). compute; intuition. Qed.
+Instance aac_union_Assoc T : Associative (same_relation T) (union T). Proof. unfold Associative; compute; intuition.  Qed.
+
+Section test.
+  Local Infix " ++ " := (union _).
+  Local Infix " == " := (same_relation _) (at level 70, no associativity).
+  Variable X : Type.
+  Variables R S : relation X.
+  Goal (R ++ S == R) -> ((S ++ S) ++ R == R).
+  Proof.
+    intros E.
+    aac_rewrite E.
+    aac_rewrite E.
+    aac_reflexivity.
+  Qed.
+End test.

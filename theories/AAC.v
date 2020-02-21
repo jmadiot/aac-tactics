@@ -98,6 +98,7 @@ Instance aac_lift_proper {X} {R : relation X} {E} {HE: Equivalence E}
   {HR: Proper (E==>E==>iff) R}: AAC_lift  R E | 4 := {}.
 
 
+Universe U.
 
 Module Internal.
 (** * Utilities for the evaluation function *)
@@ -208,7 +209,7 @@ End Bin.
 (** * Reification, normalisation, and decision  *)
 
 Section s.
-  Context {X} {R: relation X} {E: @Equivalence X R}.
+  Context {X:Type@{U}} {R: relation X} {E: @Equivalence X R}.
   Infix "==" := R (at level 80).
 
   (* We use environments to store the various operators and the
@@ -928,7 +929,7 @@ Local Ltac internal_normalize :=
    given an instance of AAC_lift *)
 
 Section t.
-  Context `{AAC_lift}.
+  Context {X:Type@{U}} `{AAC_lift X}.
 
   Lemma lift_transitivity_left  (y x z : X): E x y -> R y z -> R x z.
   Proof. destruct H as [Hequiv Hproper]; intros G;rewrite G. trivial. Qed.
